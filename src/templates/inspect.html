@@ -4,7 +4,7 @@
     <div class="input-group-prepend">
         <span class="input-group-text" id="inputGroup-sizing-default">Current route</span>
     </div>
-    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ host_url }}{{ route_path }}">
+    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{ host_url }}{{ route_path }}" disabled>
 </div>
 
 <form method="POST" action="/inspect/{{ route_path }}">
@@ -17,17 +17,6 @@
 </form>
 
 {% if callbacks %}
-    <div class="alert alert-primary" role="alert">
-            Webhook example:
-
-            <pre><code>
-curl -X POST {{ host_url }}{{ route_path }} \
--H "Content-Type: application/json" \
--H "X-MyHeader: 123" \
--d '{"hello": "world", "is_true": true}'
-</code></pre>
-        </div>
-        
     {% for callback in callbacks %}
         {% set rowloop = loop %}
 

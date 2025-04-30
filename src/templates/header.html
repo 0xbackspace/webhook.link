@@ -19,7 +19,7 @@
 </style>
 
 </head>
-<body>
+<body class="container container-lg">
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -30,11 +30,10 @@
     </ol>
 </nav>
 
-<div style="text-align: right;">
-    <a href="https://github.com/gabfl/webhook"><button type="button" class="btn btn-success">Fork me <i class="fab fa-github"></i></button></a>
-    {% if route_path %}
+{% if route_path %}
+    <div style="text-align: right;">
         <a href="/api/inspect/{{ route_path }}" target="_blank"><button type="button" class="btn btn-warning">View as Json</button></a>
         <a href="/api/delete/{{ route_path }}" target="_blank" onclick="return confirm('Confirm route deletion?');"><button type="button" class="btn btn-danger">Delete (Json)</button></a>
-    {% endif %}
-    <a href="/new" target="_blank"><button type="button" class="btn btn-primary">New route</button></a>
-</div>
+        <a href="/new" target="_blank"><button type="button" class="btn btn-primary">New route</button></a>
+    </div>
+{% endif %}

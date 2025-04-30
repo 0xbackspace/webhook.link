@@ -1,15 +1,19 @@
-import json
 import os
 from datetime import timezone
 from urllib.parse import urlparse
 
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify
+from flask import (
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    send_from_directory,
+    url_for
+)
 
+from . import callback_handler, routes_handler
 from .bootstrap import get_or_create_app
-from . import callback_handler
-from . import routes_handler
-from .models import db, RouteModel, CallbackModel
-
+from .models import RouteModel
 
 app = get_or_create_app()
 
@@ -29,10 +33,19 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 @app.route("/")
 def hp():
+    routes=RouteModel.query.all()
     return render_template(
         'index.html',
         host_url=request.host_url,
-        host_name=urlparse(request.host_url).netloc
+        host_name=urlparse(request.host_url).netloc,
+        has_existing_routes=len(routes) is not 0,
+        routes=map(lambda x: {
+            'id': x.id,
+            'name': x.name,
+            'path': x.path,
+            'created_at': _jinja2_filter_datetime(x.creation_date),
+            'expiring_at': _jinja2_filter_datetime(x.expiration_date)
+        }, routes)
     )
 
 
